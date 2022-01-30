@@ -8,6 +8,7 @@ public class VaxAppApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(VaxAppApplication.class, args);
+        System.out.println("Hello World");
     }
 
 }
