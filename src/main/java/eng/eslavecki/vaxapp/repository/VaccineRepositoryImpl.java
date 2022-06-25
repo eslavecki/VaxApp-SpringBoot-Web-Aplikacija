@@ -8,6 +8,21 @@ import java.util.*;
 
 @Repository
 public class VaccineRepositoryImpl implements VaccineRepository {
+
+  List<Vaccine> vaccines = new ArrayList<>(List.of(Vaccine.builder()
+          .researchName("Sputnik")
+          .manufacturerName("Mother Russia")
+          .vaccineType(VaccineType.mRNA)
+          .requiredDoseAmount(2)
+          .availableDoseAmount(400000)
+          .build(),  Vaccine.builder()
+          .researchName("AZ150")
+          .manufacturerName("Astra Zeneca")
+          .vaccineType(VaccineType.VIRAL_VECTOR)
+          .requiredDoseAmount(2)
+          .availableDoseAmount(150000)
+          .build()));
+
   @Override
   public List<Vaccine> findAll() {
     return getVaccines();
@@ -19,26 +34,15 @@ public class VaccineRepositoryImpl implements VaccineRepository {
     return getVaccines().stream().filter(s -> s.getResearchName().equals(researchName)).findFirst();
   }
 
+  @Override
+  public Optional<Vaccine> save(Vaccine vaccine) {
+
+    vaccines.add(vaccine);
+
+    return Optional.of(vaccine);
+  }
+
   private List<Vaccine> getVaccines() {
-    List<Vaccine> vaccines = new ArrayList<>();
-
-    vaccines.add(
-        Vaccine.builder()
-            .researchName("Sputnik")
-            .manufacturerName("Mother Russia")
-            .vaccineType(VaccineType.mRNA)
-            .requiredDoseAmount(2)
-            .availableDoseAmount(400000)
-            .build());
-
-    vaccines.add(
-        Vaccine.builder()
-            .researchName("AZ150")
-            .manufacturerName("Astra Zeneca")
-            .vaccineType(VaccineType.VIRAL_VECTOR)
-            .requiredDoseAmount(2)
-            .availableDoseAmount(150000)
-            .build());
     return vaccines;
   }
 }

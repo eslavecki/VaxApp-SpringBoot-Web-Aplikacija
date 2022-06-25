@@ -1,12 +1,15 @@
 package eng.eslavecki.vaxapp.service;
 
-import eng.eslavecki.vaxapp.model.*;
+import eng.eslavecki.vaxapp.command.*;
+import eng.eslavecki.vaxapp.dto.*;
 
 import java.util.*;
 
 public interface VaccineService {
 
-    List<Vaccine> findAll();
+    List<VaccineDTO> findAll();
 
-    Optional<Vaccine> findVaccineByResearchName(String researchName);
+    Optional<VaccineDTO> findVaccineByResearchName(String researchName);
+
+    Optional<VaccineDTO> save(VaccineCommand vaccineCommand);
 }

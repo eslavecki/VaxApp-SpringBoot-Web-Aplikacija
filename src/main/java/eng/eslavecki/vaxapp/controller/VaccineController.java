@@ -1,7 +1,9 @@
 package eng.eslavecki.vaxapp.controller;
 
-import eng.eslavecki.vaxapp.model.*;
+import eng.eslavecki.vaxapp.command.*;
+import eng.eslavecki.vaxapp.dto.*;
 import eng.eslavecki.vaxapp.service.*;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -17,13 +19,40 @@ public class VaccineController {
     }
 
     @GetMapping
-    public List<Vaccine> getAllVaccines(){
+    public List<VaccineDTO> getAllVaccines(){
         return vaccineService.findAll();
     }
 
-    @GetMapping(params = "researchName")
-    public Optional<Vaccine> getByResearchName(@RequestParam final String researchName){
+    @GetMapping("/{researchName}")
+    public Optional<VaccineDTO> getByResearchName(@PathVariable final String researchName){
         return vaccineService.findVaccineByResearchName(researchName);
     }
+
+    @PostMapping
+    public ResponseEntity<VaccineDTO> saveVaccine(@RequestBody final VaccineCommand vaccineCommand){
+
+        return vaccineService.save(vaccineCommand)
+                .map(
+                        vaccineDTO -> ResponseEntity
+                                .status(HttpStatus.CREATED)
+                                .body(vaccineDTO)
+                )
+                .orElseGet(
+                        () -> ResponseEntity
+                                .status(HttpStatus.CONFLICT)
+                                .build()
+                );
+    }
+
+    @DeleteMapping(params = "researchName")
+    public HttpStatus deleteVaccine(@RequestParam String researchName){
+
+        HttpStatus status;
+
+        vaccineService.findAll().remove(vaccineService.findAll().indexOf(vaccineService.findVaccineByResearchName(researchName)));
+
+        return null;
+    }
+
 
 }

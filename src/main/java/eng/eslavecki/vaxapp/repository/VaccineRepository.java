@@ -9,4 +9,6 @@ public interface VaccineRepository {
     List<Vaccine> findAll();
 
     Optional<Vaccine> findVaccineByResearchName(String researchName);
+
+    Optional<Vaccine> save(Vaccine vaccine);
 }
